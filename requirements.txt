@@ -1,0 +1,10 @@
+# Core application and deep-learning dependencies
+Flask
+tensorflow
+numpy
+opencv-python
+Pillow
+scikit-learn
+matplotlib
+pandas
+seaborn

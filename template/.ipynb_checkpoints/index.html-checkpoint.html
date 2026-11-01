@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signature Verification</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <link rel="stylesheet" href="C:\Users\mahan\project\static\style.css">
+    <b>
+        <h1>Signature Verification</h1>
+    </b>
+    <form id="signatureForm" method="post">
+        <input type="file" name="file" id="signatureInput">
+        <button type="button" id="uploadButton">Upload Signature</button>
+        <div id="result"></div>
+    </form>
+    <script>
+        document.getElementById('uploadButton').addEventListener('click', async () => {
+            const fileInput = document.getElementById('signatureInput');
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerText = ''; // Clear previous result
+
+            if (!fileInput.files.length) {
+                resultDiv.innerText = 'Please select a signature image.';
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            resultDiv.innerText = 'Verifying...';
+
+            try {
+                const response = await fetch('/verify', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const result = await response.json();
+                resultDiv.innerText = `The Given signature is: ${result.result}`;
+            } catch (error) {
+                resultDiv.innerText = 'Error verifying the signature.';
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+
+</html>
